@@ -1,0 +1,91 @@
+http://academic.signavio.com/p/editor?id=32ae13c6f9e4419dbdb7cd02cf4b5de6
+
+A) Take Asset Model and transform it to BPMN
+============================================
+
+1. Actors -> Lanes (and Pools)
+2. Resources -> Data objects
+3a. Goal -> (Throwing) Intermediate Event
+3b. Plan -> Task
+	- put into lane according to closest actor
+	  except it's inside a boundary with an actor
+	  attached -> then add to this lane
+4. Decomposition -> Sub-Tasks
+	- Means-End related Plans / Goals of decomposed
+	  Entities are also included within Sub-Task
+5. Directed Dependency between Goal / Plan ->
+   Directed Sequence Flow between resulting Tasks / Events in
+   inverse order to Dependency Relationship
+6. Means-End from Goal / Plan to Resource ->
+   Combine Task with Data Object (read-write)
+7. Means-End from Goal / Plan to Goal / Plan ->
+   Sequence Flow or, if multiple Means-Ends go to same
+   Goal / Plan combine those with AND-Gateway
+8. Security Constraints ->
+   Annotation / Comment and link with Target
+   
+
+Result
+- Security constraints are only preserved as comments,
+  rest is successfully transformed
+- no order between Tasks could be obtained, except
+  for directed Dependency links and Means-End relations
+- Means-End from Goal / Plan to Goal / Plan
+  may not be successfully transformed as
+  it may not be clear whether it should be a Sub-Task
+  or rather an AND-Gateway
+
+
+B) Take Thread Definition Model and transform it to BPMN
+========================================================
+
+1. Add Lane for any additional Actor (e.g. Attacker)
+2. Perform Transformation Steps from A) for all
+   additional artifacts (e.g. the ones within Attacker
+   boundary)
+3. Attacks from Goal / Plan to Resource ->
+   Combine Task with Data Object (read-write)
+4. Exploits from Goal / Plan to Goal / Plan ->
+   Add Message Flow from Goal / Plan to Goeal / Plan
+
+Result
+- Vulnerability Points are implicitly identified
+  by target of exploits Message Flow
+- Attacker activities and and Actors are successfully
+  contributed to the first step's BPMN model
+
+
+C) Take Risk Treatment Model and transform it to BPMN
+=====================================================
+
+1. Add additional Goal / Plan / Resource
+   according to rules from A) and B)
+2. Mitigates from Goal / Plan to Threat ->
+   Add as Annotation to source Goal / Plan
+3. Impact + / - from Threat to Resource ->
+   Add as Annotation to Attack/Relationship,
+   if existing, discard otherwise (also see result)
+
+Result
+- Impact link may become visible when splitting BPMN
+  diagram into pre- and post-Risk Treatment versions
+
+
+D) Finalize
+===========
+
+1. Collapse all empty lanes to pools
+2. Remove eventually doubled Sequence Flows etc.
+
+
+E) Manual steps
+===============
+
+1. Link unlinked Tasks with each other
+2. Define starting and end points, possibly additional events
+3. Revise Tasks and especiallz Events for specialiyed types
+   (e.g. Message Event)
+4. Combine or Split Tasks
+
+Questions?
+- Transform Security Contraints as Standard Events?
