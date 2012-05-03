@@ -1,0 +1,71 @@
+Resulting models from A-C may be treated separately (as proposed
+for Secure Tropos), but in order to continue automated
+transformation the steps from B depend on A and from C on A+B.
+
+
+A) Content and Asset Identification model
+=========================================
+
+1. Swimline -> Actor
+2. Activity -> Plan
+	-> Put into boundaries of swimlane's Actor
+3. Sequence Flow -> Basically no mapping within Secure
+   Tropos fits the requirements; discard order
+4. Decision Point -> Means-End with previous Entity;
+   Transform previous Plan to Goal
+5. Last Activity -> Goal
+6. Copy Goal from #5 into all other boundaries, which do not yet
+   have a main Goal (for step #B)
+	-> add Dependency link from #5 to its Copies preserving
+	   the Activity's order, if possible
+7. All unlinked Plans and Goals within an Actor Boundary are made
+   a Means-End of Goal from #5 or #6
+
+Result
+- Activity / Plan order is discarded
+- Decision Points are not clearly transformed
+- Start- and End-Point are discarded
+- Goals may *not* be automatically derived
+- Links (Decomposition, Means-End, ...) may not be derived
+  in a very sophisticated way
+
+
+B) Risk Analysis model
+======================
+
+1. Create Actors as defined in A.1
+2. Derive Plans and Goals as defined in A.2-7
+3. Add Exploits-Relations for Sequence Flows from Mal-Activity
+   to Activity
+4. Add Attacks-Relation from Goal B.2[A.5] to Goal A.5
+
+Result
+- mainly as defined in A
+
+
+C) Security Requirements Definition
+===================================
+
+1. Create Actors as defined in A.1
+2. Derive Plans as defined in A.2-3
+3. Add Mitigates-Relations for Sequence Flows from Mal-Activity
+   to Countermeasure-Activity
+
+Result
+- Mitigates-Relations successfully derived
+- Impact-Relations may *not* be automatically derived
+- Security Contraints may *not* be automatically derived
+
+
+D) Finalization
+===============
+
+--
+
+
+E) Manual Work
+==============
+
+1. Revise the diagram
+2. Add Security Contraints
+3. ...
