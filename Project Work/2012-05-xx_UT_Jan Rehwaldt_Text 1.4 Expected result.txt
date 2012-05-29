@@ -1,0 +1,2 @@
+The expected outcome of this project is a comprehensive set of transformation rules between the modelling languages Business Process and Notation 2.0 (BPMN), Mal-Activity Diagrams (MAD) and Secure Tropos (SD) based on previously defined ISSRM alignments.
+In order to fully define the transformations between those languages it has to be identified, which parts of the rules may be automated and which are manual work. Additionally may be pointed out which pieces of information may be required to automate the manual steps, if at all possible.
